@@ -9,24 +9,28 @@ class LeftDesktopView extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // TEXT SECTION WITH PADDING 
+        // TEXT SECTION WITH PADDING
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 40),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
+              Text(
                 "Apply for Gold Loan",
-                style: TextStyle(
-                  // fontFamily: 'AG',
+                style: GoogleFonts.inter(
                   color: Color(0xFF174A8E),
                   fontSize: 37,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-              const Text(
+              
+
+              Text(
                 "Meet your financial needs with loan against gold.",
-                style: TextStyle(color: Color(0xFF174A8E), fontSize: 20),
+                style: GoogleFonts.inter(
+                  color: Color(0xFF174A8E),
+                  fontSize: 20,
+                ),
               ),
 
               SizedBox(height: 20),
@@ -47,11 +51,11 @@ class LeftDesktopView extends StatelessWidget {
                       color: const Color(0xFF174A8E),
                       fontWeight: FontWeight.w400,
                     ),
-                    children: const [
+                    children: [
                       TextSpan(text: "Preferred by over "),
                       TextSpan(
                         text: "42 lakh customers",
-                        style: TextStyle(fontWeight: FontWeight.w600),
+                        style: GoogleFonts.inter(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -60,7 +64,7 @@ class LeftDesktopView extends StatelessWidget {
             ],
           ),
         ),
-        // IMAGE 
+        // IMAGE
         Expanded(
           child: Align(
             alignment: Alignment.bottomLeft,
@@ -74,11 +78,11 @@ class LeftDesktopView extends StatelessWidget {
           ),
         ),
 
-        const Padding(
+        Padding(
           padding: EdgeInsets.only(left: 15, bottom: 20),
           child: Text(
             "© Copyright HDFC Bank Ltd.",
-            style: TextStyle(color: Color(0xFF4B5563), fontSize: 12),
+            style: GoogleFonts.inter(color: Color(0xFF4B5563), fontSize: 12),
           ),
         ),
       ],

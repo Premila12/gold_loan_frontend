@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
+import 'consent.dart';
 import 'header.dart';
+import 'identify.dart';
+import 'mobile.dart';
 import 'qr.dart';
+import 'amount.dart';
 
 class RightPanel extends StatefulWidget {
   const RightPanel({super.key});
@@ -13,6 +17,7 @@ class RightPanelState extends State<RightPanel> {
   // bool _isMobileValid = false;
   // bool _isIdentifyValid = false;
   // bool _isConsentChecked = false;
+  bool _isAmountValid = false;
 
   @override
   Widget build(BuildContext context) {
@@ -22,30 +27,44 @@ class RightPanelState extends State<RightPanel> {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisSize: MainAxisSize.min,
         children: [
-          //header
           const HeaderSection(),
           const SizedBox(height: 6),
-          //qr
+
           const QrSection(),
           const SizedBox(height: 25),
 
-          Placeholder(
-            // onValidationChanged: (isValid) {
-            //   setState(() {
-            //     _isMobileValid = isValid;
-            //   });
-            // },
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: PhoneSection(onValidationChanged: (bool isValid) {}),
+                // onValidationChanged: (isValid) {
+                //   setState(() {
+                //     _isMobileValid = isValid;
+                //   });
+                // },
+              ),
+
+              const SizedBox(width: 20),
+
+              //identify
+              Expanded(
+                child: IdentifySection(
+                  onValidationChanged: (bool isValid) {
+                    // setState(() => _isIdentifyValid = isValid);
+                  },
+                ),
+              ),
+            ],
           ),
 
           const SizedBox(height: 20),
-
-          Placeholder(
-            // onValidationChanged: (isValid) {
-            //   setState(() => _isIdentifyValid = isValid);
-            // },
-          ),
+          AmountSection(),
 
           const SizedBox(height: 30),
+
+          ConsentSection(isAmountValid: _isAmountValid),
+          const SizedBox(height: 12),
 
           Placeholder(), //isEnabled: _isMobileValid && _isIdentifyValid
 

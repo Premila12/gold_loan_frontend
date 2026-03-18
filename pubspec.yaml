@@ -10,7 +10,8 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  google_fonts: ^6.1.0
+  google_fonts: ^8.0.2
+  
 
   cupertino_icons: ^1.0.8
   design_kit:
@@ -48,15 +49,16 @@ flutter:
   - assets/images/hdfc_logo.png
   - assets/images/secure.png
   - assets/images/gold.png
+  
   # fonts:
-  #   - family: AG
+  #   - family: Inter
   #     fonts:
-  #       - asset: assets/fonts/AG-Regular.ttf
+  #       - asset: assets/fonts/Inter-Regular.ttf
   #         weight: 400
-  #       - asset: assets/fonts/AG-Semibold.ttf
-  #         weight: 600
-  #       - asset: assets/fonts/AG-Bold.ttf
-  #         weight: 900
+  #       - asset: assets/fonts/Inter-Semibold.ttf
+  #         weight: 500
+  #       - asset: assets/fonts/Inter-Bold.ttf
+  #         weight: 700
           
 
 

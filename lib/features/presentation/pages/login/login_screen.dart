@@ -14,12 +14,8 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final isDesktop = Responsive.isDesktop(context);
-
-    // print("Width: ${MediaQuery.of(context).size.width}");
-    // print("isDesktop: $isDesktop");
-
     final horizontalPadding = isDesktop ? 60.0 : 20.0;
-    final logoHeight = isDesktop ? 32.0 : 22.0;
+    final logoHeight = isDesktop ? 40.0 : 22.0;
 
     return Scaffold(
       appBar: AppBar(
@@ -49,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
       body: isDesktop
           ? Row(
               children: const [
-                Flexible(flex: 3, child: LeftPanel()),
+                Flexible(flex: 4, child: LeftPanel()),
                 Expanded(
                   flex: 6,
                   child: SingleChildScrollView(

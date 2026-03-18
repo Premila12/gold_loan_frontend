@@ -28,7 +28,7 @@ class QrSection extends StatelessWidget {
               // text: "",
               backgroundColor: const Color(0xFFD7F3FF),
               // textColor: const Color(0xFF1C3FCA),
-              borderRadius: 34,
+              borderRadius: 50,
               // padding: const EdgeInsets.all(20),
               onTap: () {
                 showDialog(
