@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import '../../../utils/responsive.dart';
+import '../../../../utils/responsive.dart';
 import './left_panel/left_panel.dart';
-// import './right_panel/login_right_panel.dart';
+import './right_panel/right_form.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -15,8 +15,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     final isDesktop = Responsive.isDesktop(context);
 
-    print("Width: ${MediaQuery.of(context).size.width}");
-    print("isDesktop: $isDesktop");
+    // print("Width: ${MediaQuery.of(context).size.width}");
+    // print("isDesktop: $isDesktop");
 
     final horizontalPadding = isDesktop ? 60.0 : 20.0;
     final logoHeight = isDesktop ? 32.0 : 22.0;
@@ -53,8 +53,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 Expanded(
                   flex: 6,
                   child: SingleChildScrollView(
-                    child: SizedBox(),
-                    //  child: LoginRightPanel(),
+                    
+                     child: RightPanel(),
                   ),
                 ),
               ],

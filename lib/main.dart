@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'features/gold_loan/presentation/pages/login/login_screen.dart';
+import 'features/presentation/pages/login/login_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: LoginScreen(), 
+      theme: ThemeData(fontFamily: 'Ag'),
+      home: LoginScreen(),
     );
   }
 }

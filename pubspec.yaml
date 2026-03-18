@@ -15,6 +15,8 @@ dependencies:
   cupertino_icons: ^1.0.8
   design_kit:
      path: ../design_kit
+  url_launcher: ^6.3.2
+  flutter_riverpod: ^3.3.1
      
 
   
@@ -51,8 +53,10 @@ flutter:
   #     fonts:
   #       - asset: assets/fonts/AG-Regular.ttf
   #         weight: 400
+  #       - asset: assets/fonts/AG-Semibold.ttf
+  #         weight: 600
   #       - asset: assets/fonts/AG-Bold.ttf
-  #         weight: 800
+  #         weight: 900
           
 
 
