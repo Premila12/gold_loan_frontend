@@ -5,7 +5,7 @@ import 'package:design_kit/design_kit/src/primary_button/button_widget_info.dart
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:url_launcher/url_launcher.dart';
+import '../../../../../core/constants/link.dart';
 
 
 
@@ -25,33 +25,7 @@ class _ConsentSectionState extends State<ConsentSection> {
   /// ✅ Button enable logic
   bool get _isButtonEnabled => widget.isAmountValid && _consent1;
 
-  Future<void> privacyLink() async {
-    final Uri url = Uri.parse(
-      "https://www.hdfc.bank.in/privacy-policy",
-    );
 
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception("Could not launch $url");
-    }
-  }
-   Future<void> tandcLink() async {
-    final Uri url = Uri.parse(
-      "https://www.hdfc.bank.in/terms-and-conditions",
-    );
-
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception("Could not launch $url");
-    }
-  }
-  Future<void> noticeLink() async {
-    final Uri url = Uri.parse(
-      "https://www.hdfc.bank.in/smartwealth/consent",
-    );
-
-    if (!await launchUrl(url, mode: LaunchMode.externalApplication)) {
-      throw Exception("Could not launch $url");
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +52,7 @@ class _ConsentSectionState extends State<ConsentSection> {
                 text: "Notice",
                 style: const TextStyle(color: Colors.blue),
                 recognizer: TapGestureRecognizer()
-                  ..onTap = noticeLink,
+                  ..onTap = AppLinks.openNoticeConsent,
               ),
 
               const TextSpan(text: " (Mandatory Consent)."),
@@ -111,7 +85,7 @@ class _ConsentSectionState extends State<ConsentSection> {
                 text: "Notice",
                 style: GoogleFonts.inter(color: Colors.blue),
                 recognizer: TapGestureRecognizer()
-                  ..onTap = noticeLink,
+                  ..onTap = AppLinks.openNoticeConsent,
               ),
 
               const TextSpan(text: "."),
@@ -142,7 +116,7 @@ class _ConsentSectionState extends State<ConsentSection> {
                 text: "Terms & Conditions",
                 style: GoogleFonts.inter(color: Colors.blue,),
                 recognizer: TapGestureRecognizer()
-                  ..onTap = tandcLink,
+                  ..onTap = AppLinks.openTermsAndConditions,
               ),
 
               const TextSpan(text: " and "),
@@ -151,7 +125,7 @@ class _ConsentSectionState extends State<ConsentSection> {
                 text: "Privacy Policy",
                 style: GoogleFonts.inter(color: Colors.blue,),
                 recognizer: TapGestureRecognizer()
-                  ..onTap = privacyLink,
+                  ..onTap = AppLinks.openPrivacyPolicy,
               ),
 
               const TextSpan(text: "."),

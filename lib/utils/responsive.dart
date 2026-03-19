@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 class Responsive {
   static const double mobileBreakpoint = 768;
-  static const double desktopBreakpoint = 1024;
+  static const double desktopBreakpoint = 1200;
 
   static bool isMobile(BuildContext context) =>
       MediaQuery.of(context).size.width < mobileBreakpoint;

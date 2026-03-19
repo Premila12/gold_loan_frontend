@@ -14,6 +14,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     final isDesktop = Responsive.isDesktop(context);
+    final isTablet = Responsive.isTablet(context);
     final horizontalPadding = isDesktop ? 60.0 : 20.0;
     final logoHeight = isDesktop ? 40.0 : 22.0;
 
@@ -42,10 +43,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
 
-      body: isDesktop
+      body: (isDesktop ||isTablet)
           ? Row(
               children: const [
-                Flexible(flex: 4, child: LeftPanel()),
+                Flexible(flex: 3, child: LeftPanel()),
                 Expanded(
                   flex: 6,
                   child: SingleChildScrollView(
@@ -58,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
           : SingleChildScrollView(
               child: Column(
                 children: const [
-                  LeftPanel(), // mobile version
-                  //  LoginRightPanel(),
+                  LeftPanel(), 
+                  RightPanel(),
                 ],
               ),
             ),

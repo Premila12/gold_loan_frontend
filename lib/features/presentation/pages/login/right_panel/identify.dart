@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import '../../../../../utils/responsive.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../utils/validators/dob.dart';
 import '../../../../../utils/validators/pan.dart';
@@ -22,21 +21,17 @@ class _IdentifySectionState extends State<IdentifySection> {
   bool isDobValid = false;
   bool isPanValid = false;
 
-  /// 🔹 Notify parent based on selection
+  /// 🔹 Notify parent
   void _notifyParent() {
-    if (selected == 'dob') {
-      widget.onValidationChanged(isDobValid);
-    } else {
-      widget.onValidationChanged(isPanValid);
-    }
+    widget.onValidationChanged(
+      selected == 'dob' ? isDobValid : isPanValid,
+    );
   }
 
-  /// 🔹 Handle toggle change
+  /// 🔹 Handle selection change
   void _onSelectionChanged(String value) {
     setState(() {
       selected = value;
-
-      // reset validation when switching
       isDobValid = false;
       isPanValid = false;
     });
@@ -44,84 +39,113 @@ class _IdentifySectionState extends State<IdentifySection> {
     _notifyParent();
   }
 
- @override
-Widget build(BuildContext context) {
-  return Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: [
-      Row(
-        children: [
-          Text(
-            "Identify Using",
-            style: GoogleFonts.inter(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87,
-            ),
-          ),
+  @override
+  Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final isMobile = width < 600;
 
-          const SizedBox(width: 16),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        /// 🔥 HEADER + OPTIONS (RESPONSIVE)
+        isMobile
+            /// 📱 MOBILE VIEW
+            ? Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _title(),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      _buildDobOption(),
+                      const SizedBox(width: 16),
+                      _buildPanOption(),
+                    ],
+                  ),
+                ],
+              )
 
-          /// DOB Radio
-          Row(
-            children: [
-              Radio<String>(
-                value: 'dob',
-                groupValue: selected,
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize:
-                    MaterialTapTargetSize.shrinkWrap,
-                onChanged: (value) =>
-                    _onSelectionChanged(value!),
+            /// 💻 TABLET + DESKTOP VIEW
+            : Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  _title(),
+                  const SizedBox(width: 16),
+                  _buildDobOption(),
+                  const SizedBox(width: 12),
+                  _buildPanOption(),
+                ],
               ),
-              Text(
-                "Date of Birth",
-                style: GoogleFonts.inter(fontSize: 14),
-              ),
-            ],
-          ),
 
-          const SizedBox(width: 12),
+        const SizedBox(height: 10),
 
-          /// PAN Radio
-          Row(
-            children: [
-              Radio<String>(
-                value: 'pan',
-                groupValue: selected,
-                visualDensity: VisualDensity.compact,
-                materialTapTargetSize:
-                    MaterialTapTargetSize.shrinkWrap,
-                onChanged: (value) =>
-                    _onSelectionChanged(value!),
+        /// 🔥 FIELD (DOB / PAN)
+        selected == 'dob'
+            ? DOBField(
+                onValidationChanged: (isValid) {
+                  isDobValid = isValid;
+                  _notifyParent();
+                },
+              )
+            : PANField(
+                onValidationChanged: (isValid) {
+                  isPanValid = isValid;
+                  _notifyParent();
+                },
               ),
-               Text(
-                "PAN",
-                style: GoogleFonts.inter(fontSize: 14),
-              ),
-            ],
-          ),
-        ],
+      ],
+    );
+  }
+
+  /// 🔹 Title Widget
+  Widget _title() {
+    return Text(
+      "Identify Using",
+      style: GoogleFonts.inter(
+        fontSize: 20,
+        fontWeight: FontWeight.w600,
+        color: Colors.black87,
       ),
+    );
+  }
 
-      const SizedBox(height: 6),
-
-
-      if (selected == 'dob')
-        DOBField(
-          onValidationChanged: (isValid) {
-            isDobValid = isValid;
-            _notifyParent();
-          },
-        )
-      else
-        PANField(
-          onValidationChanged: (isValid) {
-            isPanValid = isValid;
-            _notifyParent();
-          },
+  /// 🔹 DOB Option
+  Widget _buildDobOption() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Radio<String>(
+          value: 'dob',
+          groupValue: selected,
+          visualDensity: VisualDensity.compact,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          onChanged: (value) => _onSelectionChanged(value!),
         ),
-    ],
-  );
-}
+        Text(
+          "Date of Birth",
+          style: GoogleFonts.inter(fontSize: 14),
+        ),
+      ],
+    );
+  }
+
+  /// 🔹 PAN Option
+  Widget _buildPanOption() {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Radio<String>(
+          value: 'pan',
+          groupValue: selected,
+          visualDensity: VisualDensity.compact,
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          onChanged: (value) => _onSelectionChanged(value!),
+        ),
+        Text(
+          "PAN",
+          style: GoogleFonts.inter(fontSize: 14),
+        ),
+      ],
+    );
+  }
 }

@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HeaderSection extends StatelessWidget {
   const HeaderSection({super.key});
 
-  Future<void> _launchHDFCUrl() async {
+  Future<void> launchHDFCUrl() async {
     final Uri url = Uri.parse(
       'https://applynow.hdfc.bank.in/gold-loan/track-application-login-page',
     );
@@ -29,14 +30,14 @@ class HeaderSection extends StatelessWidget {
         ),
 
         InkWell(
-          onTap: _launchHDFCUrl,
+          onTap: launchHDFCUrl,
           child: Row(
             mainAxisSize:
                 MainAxisSize.min, 
             children: [
-              const Text(
+              Text(
                 "Track/edit loan application ",
-                style: TextStyle(
+                style: GoogleFonts.inter(
                   color: Color(0xFF1C3FCA),
                   fontSize: 14,
                   fontWeight: FontWeight.bold,

@@ -9,6 +9,7 @@ class LeftPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDesktop = Responsive.isDesktop(context);
+    final isTablet = Responsive.isTablet(context);
 
     return SizedBox(
       height: isDesktop ? double.infinity : null,
@@ -17,7 +18,7 @@ class LeftPanel extends StatelessWidget {
         children: [
           Positioned.fill(child: Container(color: const Color(0xFFDDF2F8))),
 
-          isDesktop
+          (isDesktop || isTablet)
               ? const Positioned.fill(child: LeftDesktopView())
               : const LeftMobileView(),
         ],
