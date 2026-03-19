@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/link.dart';
+import '../../../../../utils/responsive.dart';
 
 class StepsAndLinksSection extends StatelessWidget {
   const StepsAndLinksSection({super.key});
@@ -16,6 +17,7 @@ class StepsAndLinksSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isMobile = Responsive.isMobile(context);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -35,30 +37,64 @@ class StepsAndLinksSection extends StatelessWidget {
 
               const SizedBox(height: 16),
 
-              Row(
-                
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: const [
-                  _StepItem(icon: Icons.qr_code, label: "Scan QR\nto Login"),
-                  Text("or"),
-                  _StepItem(
-                    icon: Icons.verified_user,
-                    label: "Verify with OTP\nor WhatsApp",
-                  ),
-                  _StepItem(
-                    icon: Icons.chat_bubble_outline,
-                    label: "Provide\nBasic Details",
-                  ),
-                  _StepItem(
-                    icon: Icons.account_balance,
-                    label: "Provide\nLoan Details",
-                  ),
-                  _StepItem(
-                    icon: Icons.verified,
-                    label: "Book appointment\nfor branch visit",
-                  ),
-                ],
-              ),
+              isMobile
+                  ? Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: const [
+                        _StepItem(
+                          icon: Icons.qr_code,
+                          label: "Scan QR\nto Login",
+                        ),
+                        SizedBox(height: 10),
+                        Text("or"),
+                        SizedBox(height: 10),
+                        _StepItem(
+                          icon: Icons.verified_user,
+                          label: "Verify with OTP\nor WhatsApp",
+                        ),
+                        SizedBox(height: 10),
+                        _StepItem(
+                          icon: Icons.chat_bubble_outline,
+                          label: "Provide\nBasic Details",
+                        ),
+                        SizedBox(height: 10),
+                        _StepItem(
+                          icon: Icons.account_balance,
+                          label: "Provide\nLoan Details",
+                        ),
+                        SizedBox(height: 10),
+                        _StepItem(
+                          icon: Icons.verified,
+                          label: "Book appointment\nfor branch visit",
+                        ),
+                      ],
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: const [
+                        _StepItem(
+                          icon: Icons.qr_code,
+                          label: "Scan QR\nto Login",
+                        ),
+                        Text("or"),
+                        _StepItem(
+                          icon: Icons.verified_user,
+                          label: "Verify with OTP\nor WhatsApp",
+                        ),
+                        _StepItem(
+                          icon: Icons.chat_bubble_outline,
+                          label: "Provide\nBasic Details",
+                        ),
+                        _StepItem(
+                          icon: Icons.account_balance,
+                          label: "Provide\nLoan Details",
+                        ),
+                        _StepItem(
+                          icon: Icons.verified,
+                          label: "Book appointment\nfor branch visit",
+                        ),
+                      ],
+                    ),
             ],
           ),
         ),
@@ -72,46 +108,92 @@ class StepsAndLinksSection extends StatelessWidget {
             color: const Color(0xFFF4F0FF),
             borderRadius: BorderRadius.circular(12),
           ),
-          child: Row(
-            children: [
-              const Icon(Icons.account_balance_wallet, color: Colors.orange),
+          
 
-              const SizedBox(width: 10),
-
+child: Responsive.isMobile(context)
+    ? Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: const [
+              Icon(Icons.account_balance_wallet, color: Colors.orange),
+              SizedBox(width: 10),
               Expanded(
                 child: Text(
                   "Already applied for a Gold Loan?",
-                  style: GoogleFonts.inter(fontWeight: FontWeight.bold),
-                ),
-              ),
-
-              InkWell(
-                onTap: () {
-                  AppLinks.openTrackApplication();
-                },
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      "Track/edit loan application ",
-                      style: GoogleFonts.inter(
-                        color: Color(0xFF1C3FCA),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(width: 4),
-                    const Icon(
-                      Icons.arrow_forward_ios,
-                      size: 12,
-                      color: Color(0xFF1C3FCA),
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ],
                 ),
               ),
             ],
           ),
+
+          const SizedBox(height: 10),
+
+          InkWell(
+            onTap: () {
+              AppLinks.openTrackApplication();
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Track/edit loan application ",
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF1C3FCA),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 12,
+                  color: Color(0xFF1C3FCA),
+                ),
+              ],
+            ),
+          ),
+        ],
+      )
+    : Row(
+        children: [
+          const Icon(Icons.account_balance_wallet, color: Colors.orange),
+
+          const SizedBox(width: 10),
+
+          Expanded(
+            child: Text(
+              "Already applied for a Gold Loan?",
+              style: GoogleFonts.inter(fontWeight: FontWeight.bold),
+            ),
+          ),
+
+          InkWell(
+            onTap: () {
+              AppLinks.openTrackApplication();
+            },
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  "Track/edit loan application ",
+                  style: GoogleFonts.inter(
+                    color: const Color(0xFF1C3FCA),
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(width: 4),
+                const Icon(
+                  Icons.arrow_forward_ios,
+                  size: 12,
+                  color: Color(0xFF1C3FCA),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+
         ),
 
         const SizedBox(height: 20),
@@ -123,54 +205,77 @@ class StepsAndLinksSection extends StatelessWidget {
         ),
 
         const SizedBox(height: 14),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-          Flexible(
-              child: _LinkItem(
-                icon: Icons.call,
-                text: "Grievance Redressal & Cust. Care",
-                onTap: AppLinks.opensachetPortal,
+
+        isMobile
+            ? Column(
+                children: [
+                  _LinkItem(
+                    icon: Icons.call,
+                    text: "Grievance Redressal & Cust. Care",
+                    onTap: AppLinks.opensachetPortal,
+                  ),
+                  const SizedBox(height: 10),
+                  _LinkItem(
+                    icon: Icons.account_balance,
+                    text: "Sachet Portal",
+                    onTap: AppLinks.opensachetPortal,
+                  ),
+                  const SizedBox(height: 10),
+                  _LinkItem(
+                    icon: Icons.info_outline,
+                    text: "About Gold Loan",
+                    onTap: AppLinks.opensachetPortal,
+                  ),
+                  const SizedBox(height: 10),
+                  _LinkItem(
+                    icon: Icons.report_problem,
+                    text: "Complaint Management System",
+                    onTap: AppLinks.opensachetPortal,
+                  ),
+                ],
+              )
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  Flexible(
+                    child: _LinkItem(
+                      icon: Icons.call,
+                      text: "Grievance Redressal & Cust. Care",
+                      onTap: AppLinks.opensachetPortal,
+                    ),
+                  ),
+                  _verticalDivider(),
+                  Flexible(
+                    child: _LinkItem(
+                      icon: Icons.account_balance,
+                      text: "Sachet Portal",
+                      onTap: AppLinks.opensachetPortal,
+                    ),
+                  ),
+                  _verticalDivider(),
+                  Flexible(
+                    child: _LinkItem(
+                      icon: Icons.info_outline,
+                      text: "About Gold Loan",
+                      onTap: AppLinks.opensachetPortal,
+                    ),
+                  ),
+                  _verticalDivider(),
+                  Flexible(
+                    child: _LinkItem(
+                      icon: Icons.report_problem,
+                      text: "Complaint Management System",
+                      onTap: AppLinks.opensachetPortal,
+                    ),
+                  ),
+                ],
               ),
-            ),
-
-            _verticalDivider(),
-
-            Flexible(
-              child: _LinkItem(
-                icon: Icons.account_balance,
-                text: "Sachet Portal",
-                onTap: AppLinks.opensachetPortal,
-              ),
-            ),
-
-            _verticalDivider(),
-
-            Flexible(
-              child: _LinkItem(
-                icon: Icons.info_outline,
-                text: "About Gold Loan",
-                onTap: AppLinks.opensachetPortal,
-              ),
-            ),
-
-            _verticalDivider(),
-
-            Flexible(
-              child: _LinkItem(
-                icon: Icons.report_problem,
-                text: "Complaint Management System",
-                onTap: AppLinks.opensachetPortal,
-              ),
-            ),
-          ],
-        ),
       ],
     );
   }
 }
 
-/// 🔹 STEP ITEM
+//  STEP ITEM
 class _StepItem extends StatelessWidget {
   final IconData icon;
   final String label;
@@ -182,17 +287,10 @@ class _StepItem extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-       Container(
-          padding: const EdgeInsets.all(10), // 👈 ADD PADDING HERE
-          decoration: const BoxDecoration(
-            color: Color(0xFF4A67D6), // blue background
-            shape: BoxShape.circle,
-          ),
-          child: Icon(
-            icon,
-            color: Colors.white,
-            size: 20,
-          ),
+        CircleAvatar(
+          radius: 18,
+          backgroundColor: Colors.blue,
+          child: Icon(icon, color: Colors.white, size: 18),
         ),
         const SizedBox(height: 6),
         Text(
@@ -220,14 +318,13 @@ class _LinkItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-   
       children: [
         Icon(icon, size: 16, color: Color(0xFF1C3FCA)),
         const SizedBox(width: 6),
         Expanded(
           child: Text(
             text,
-            style:  GoogleFonts.inter(color: Color(0xFF1C3FCA), fontSize: 12),
+            style: GoogleFonts.inter(color: Color(0xFF1C3FCA), fontSize: 12),
             softWrap: true, // allows wrapping
             maxLines: 2,
           ),

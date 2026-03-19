@@ -110,7 +110,7 @@ class _DOBFieldState extends State<DOBField> {
     /// Year validation + final check
     if (parts.length > 2 && parts[2].length == 4) {
       int? year = int.tryParse(parts[2]);
-      if (year == null || year < 1950 || year > 2020) {
+      if (year == null || year < 1951 || year > 2008) {
         _updateStatus(errorMessage, false);
         return;
       }
