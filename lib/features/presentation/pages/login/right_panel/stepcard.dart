@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:gold_loan_hdfc/features/presentation/pages/login/right_panel/track_loan_card.dart';
+import 'package:gold_loan_hdfc/utils/responsive.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../../../../core/constants/link.dart';
-import '../../../../../utils/responsive.dart';
 
 class StepsAndLinksSection extends StatelessWidget {
   const StepsAndLinksSection({super.key});
@@ -22,13 +23,14 @@ class StepsAndLinksSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
+          width: double.infinity,
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
             color: const Color(0xFFF4F0FF),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               const Text(
                 "Steps to Follow",
@@ -43,55 +45,67 @@ class StepsAndLinksSection extends StatelessWidget {
                       children: const [
                         _StepItem(
                           icon: Icons.qr_code,
-                          label: "Scan QR\nto Login",
+                          label: "Scan QR to Login",
+                          isVertical: true,
                         ),
-                        SizedBox(height: 10),
-                        Text("or"),
-                        SizedBox(height: 10),
+                        SizedBox(height: 16),
                         _StepItem(
                           icon: Icons.verified_user,
-                          label: "Verify with OTP\nor WhatsApp",
+                          label: "Verify with OTP or WhatsApp",
+                          isVertical: true,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 16),
                         _StepItem(
                           icon: Icons.chat_bubble_outline,
-                          label: "Provide\nBasic Details",
+                          label: "Provide Basic Details",
+                          isVertical: true,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 16),
                         _StepItem(
                           icon: Icons.account_balance,
-                          label: "Provide\nLoan Details",
+                          label: "Provide Loan Details",
+                          isVertical: true,
                         ),
-                        SizedBox(height: 10),
+                        SizedBox(height: 16),
                         _StepItem(
                           icon: Icons.verified,
-                          label: "Book appointment\nfor branch visit",
+                          label: "Book appointment for branch visit",
+                          isVertical: true,
                         ),
                       ],
                     )
-                  : Row(
+                  : const Row(
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: const [
-                        _StepItem(
-                          icon: Icons.qr_code,
-                          label: "Scan QR\nto Login",
+                      children: [
+                        Flexible(
+                          child: _StepItem(
+                            icon: Icons.qr_code,
+                            label: "Scan QR\nto Login",
+                          ),
                         ),
-                        Text("or"),
-                        _StepItem(
-                          icon: Icons.verified_user,
-                          label: "Verify with OTP\nor WhatsApp",
+                        Flexible(
+                          child: _StepItem(
+                            icon: Icons.verified_user,
+                            label: "Verify with OTP\nor WhatsApp",
+                          ),
                         ),
-                        _StepItem(
-                          icon: Icons.chat_bubble_outline,
-                          label: "Provide\nBasic Details",
+                        Flexible(
+                          child: _StepItem(
+                            icon: Icons.chat_bubble_outline,
+                            label: "Provide\nBasic Details",
+                          ),
                         ),
-                        _StepItem(
-                          icon: Icons.account_balance,
-                          label: "Provide\nLoan Details",
+                        Flexible(
+                          child: _StepItem(
+                            icon: Icons.account_balance,
+                            label: "Provide\nLoan Details",
+                          ),
                         ),
-                        _StepItem(
-                          icon: Icons.verified,
-                          label: "Book appointment\nfor branch visit",
+                        Flexible(
+                          child: _StepItem(
+                            icon: Icons.verified,
+                            label: "Book appointment\nfor branch visit",
+                          ),
                         ),
                       ],
                     ),
@@ -101,209 +115,130 @@ class StepsAndLinksSection extends StatelessWidget {
 
         const SizedBox(height: 20),
 
-        /// 🔹 TRACK LOAN CARD
-        Container(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          decoration: BoxDecoration(
-            color: const Color(0xFFF4F0FF),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          
-
-child: Responsive.isMobile(context)
-    ? Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: const [
-              Icon(Icons.account_balance_wallet, color: Colors.orange),
-              SizedBox(width: 10),
-              Expanded(
-                child: Text(
-                  "Already applied for a Gold Loan?",
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 10),
-
-          InkWell(
-            onTap: () {
-              AppLinks.openTrackApplication();
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Track/edit loan application ",
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFF1C3FCA),
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: Color(0xFF1C3FCA),
-                ),
-              ],
-            ),
-          ),
-        ],
-      )
-    : Row(
-        children: [
-          const Icon(Icons.account_balance_wallet, color: Colors.orange),
-
-          const SizedBox(width: 10),
-
-          Expanded(
-            child: Text(
-              "Already applied for a Gold Loan?",
-              style: GoogleFonts.inter(fontWeight: FontWeight.bold),
-            ),
-          ),
-
-          InkWell(
-            onTap: () {
-              AppLinks.openTrackApplication();
-            },
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  "Track/edit loan application ",
-                  style: GoogleFonts.inter(
-                    color: const Color(0xFF1C3FCA),
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                const SizedBox(width: 4),
-                const Icon(
-                  Icons.arrow_forward_ios,
-                  size: 12,
-                  color: Color(0xFF1C3FCA),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-
-        ),
+        // TRACK LOAN CARD
+        TrackLoanCard(),
 
         const SizedBox(height: 20),
 
-        /// 🔹 IMPORTANT LINKS
+        // IMPORTANT LINKS
         Text(
           "Important Links",
           style: GoogleFonts.inter(fontWeight: FontWeight.bold),
         ),
 
         const SizedBox(height: 14),
-
-        isMobile
-            ? Column(
-                children: [
-                  _LinkItem(
-                    icon: Icons.call,
-                    text: "Grievance Redressal & Cust. Care",
-                    onTap: AppLinks.opensachetPortal,
-                  ),
-                  const SizedBox(height: 10),
-                  _LinkItem(
-                    icon: Icons.account_balance,
-                    text: "Sachet Portal",
-                    onTap: AppLinks.opensachetPortal,
-                  ),
-                  const SizedBox(height: 10),
-                  _LinkItem(
-                    icon: Icons.info_outline,
-                    text: "About Gold Loan",
-                    onTap: AppLinks.opensachetPortal,
-                  ),
-                  const SizedBox(height: 10),
-                  _LinkItem(
-                    icon: Icons.report_problem,
-                    text: "Complaint Management System",
-                    onTap: AppLinks.opensachetPortal,
-                  ),
-                ],
-              )
-            : Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Flexible(
-                    child: _LinkItem(
-                      icon: Icons.call,
-                      text: "Grievance Redressal & Cust. Care",
-                      onTap: AppLinks.opensachetPortal,
-                    ),
-                  ),
-                  _verticalDivider(),
-                  Flexible(
-                    child: _LinkItem(
-                      icon: Icons.account_balance,
-                      text: "Sachet Portal",
-                      onTap: AppLinks.opensachetPortal,
-                    ),
-                  ),
-                  _verticalDivider(),
-                  Flexible(
-                    child: _LinkItem(
-                      icon: Icons.info_outline,
-                      text: "About Gold Loan",
-                      onTap: AppLinks.opensachetPortal,
-                    ),
-                  ),
-                  _verticalDivider(),
-                  Flexible(
-                    child: _LinkItem(
-                      icon: Icons.report_problem,
-                      text: "Complaint Management System",
-                      onTap: AppLinks.opensachetPortal,
-                    ),
-                  ),
-                ],
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Flexible(
+              child: _LinkItem(
+                icon: Icons.call,
+                text: "Grievance Redressal & Cust. Care",
+                onTap: AppLinks.opensachetPortal,
               ),
+            ),
+
+            _verticalDivider(),
+
+            Flexible(
+              child: _LinkItem(
+                icon: Icons.account_balance,
+                text: "Sachet Portal",
+                onTap: AppLinks.opensachetPortal,
+              ),
+            ),
+
+            _verticalDivider(),
+
+            Flexible(
+              child: _LinkItem(
+                icon: Icons.info_outline,
+                text: "About Gold Loan",
+                onTap: AppLinks.opensachetPortal,
+              ),
+            ),
+
+            _verticalDivider(),
+
+            Flexible(
+              child: _LinkItem(
+                icon: Icons.report_problem,
+                text: "Complaint Management System",
+                onTap: AppLinks.opensachetPortal,
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
 }
 
-//  STEP ITEM
+// STEP ITEM
 class _StepItem extends StatelessWidget {
   final IconData icon;
   final String label;
+  final bool isVertical;
 
-  const _StepItem({required this.icon, required this.label});
+  const _StepItem({
+    required this.icon,
+    required this.label,
+    this.isVertical = false,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        CircleAvatar(
-          radius: 18,
-          backgroundColor: Colors.blue,
-          child: Icon(icon, color: Colors.white, size: 18),
-        ),
-        const SizedBox(height: 6),
-        Text(
-          label,
-          textAlign: TextAlign.center,
-          style: GoogleFonts.inter(fontSize: 11),
-        ),
-      ],
+    if (isVertical) {
+      // MOBILE / SIDEBAR DESIGN (LIKE YOUR IMAGE)
+      return Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Color(0xFF4A67D6),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: Colors.white, size: 18),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Text(
+              label,
+              style: GoogleFonts.inter(fontSize: 13, height: 1.3),
+            ),
+          ),
+        ],
+      );
+    }
+
+    // DESKTOP DESIGN (UNCHANGED)
+    return SizedBox(
+      width: 120,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: const BoxDecoration(
+              color: Color(0xFF4A67D6),
+              shape: BoxShape.circle,
+            ),
+            child: Icon(icon, color: Colors.white, size: 20),
+          ),
+          const SizedBox(height: 6),
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: GoogleFonts.inter(fontSize: 11),
+          ),
+        ],
+      ),
     );
   }
 }
 
-/// 🔹 LINK ITEM
+// LINK ITEM
 class _LinkItem extends StatelessWidget {
   final IconData icon;
   final String text;
