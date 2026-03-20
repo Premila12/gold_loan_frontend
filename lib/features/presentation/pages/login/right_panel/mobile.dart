@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-// import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:design_kit/design_kit/src/phonefield/phonefield.dart';
 import 'package:design_kit/design_kit/src/phonefield/phonefield_info.dart';
@@ -30,7 +29,7 @@ class _PhoneSectionState extends State<PhoneSection> {
     if (!_focusNode.hasFocus) {
       final text = _controller.text;
 
-      if (text.isNotEmpty && text.length < 10) {
+      if (text.isNotEmpty && text.length != 10) {
         setState(() {
           _errorText = "Please enter a valid 10-digit mobile number";
         });
@@ -48,21 +47,23 @@ class _PhoneSectionState extends State<PhoneSection> {
       newError = null;
     } else if (!RegExp(r'^[6-9]').hasMatch(value)) {
       newError = "Number must start with 6, 7, 8, or 9";
-    } else if (value.length < 10) {
-      newError = null;
-    } else if (RegExp(r'^[6-9]0{9}$').hasMatch(value)) {
-      newError = "Please enter a valid 10-digit mobile number";
+    } else if (value.length == 10 && RegExp(r'^[6-9]0{9}$').hasMatch(value)) {
+      newError = "Please enter a valid mobile number";
+    } else if (value.length > 10) {
+      newError = "Only 10 digits allowed";
     } else {
-      newError = null;
+      newError = null; // allow typing
     }
 
-    if (_errorText != newError) {
-      setState(() {
-        _errorText = newError;
-      });
-    }
+    setState(() {
+      _errorText = newError;
+    });
 
-    bool isValid = (newError == null && value.length == 10);
+    bool isValid =
+        (value.length == 10 &&
+        RegExp(r'^[6-9]\d{9}$').hasMatch(value) &&
+        !RegExp(r'^[6-9]0{9}$').hasMatch(value));
+
     widget.onValidationChanged(isValid);
   }
 
@@ -99,7 +100,6 @@ class _PhoneSectionState extends State<PhoneSection> {
             maxLength: 10,
             keyboardType: TextInputType.number,
 
-            // backgroundColor: Colors.white,
             borderRadius: 12,
             borderWidth: 1,
 

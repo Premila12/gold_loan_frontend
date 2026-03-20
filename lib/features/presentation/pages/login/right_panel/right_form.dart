@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'button.dart';
 import 'consent.dart';
 import 'header.dart';
 import 'identify.dart';
@@ -16,15 +17,13 @@ class RightPanel extends StatefulWidget {
 }
 
 class RightPanelState extends State<RightPanel> {
-  // bool _isMobileValid = false;
-  // bool _isIdentifyValid = false;
-  // bool _isConsentChecked = false;
+  bool _isMobileValid = false;
+  bool _isIdentifyValid = false;
   bool _isAmountValid = false;
-
+  bool _isConsentChecked = false;
   @override
   Widget build(BuildContext context) {
     final isDesktop = Responsive.isDesktop(context);
-    
 
     return SingleChildScrollView(
       padding: const EdgeInsets.all(20),
@@ -42,19 +41,20 @@ class RightPanelState extends State<RightPanel> {
                   children: [
                     Expanded(
                       child: PhoneSection(
-                        onValidationChanged: (bool isValid) {},
+                        onValidationChanged: (bool isValid) {
+                          setState(() {
+                            _isMobileValid = isValid;
+                          });
+                        },
                       ),
-                      // onValidationChanged: (isValid) {
-                      //   setState(() {
-                      //     _isMobileValid = isValid;
-                      //   });
-                      // },
                     ),
                     const SizedBox(width: 20),
                     Expanded(
                       child: IdentifySection(
                         onValidationChanged: (bool isValid) {
-                          // setState(() => _isIdentifyValid = isValid);
+                          setState(() {
+                            _isIdentifyValid = isValid;
+                          });
                         },
                       ),
                     ),
@@ -63,18 +63,48 @@ class RightPanelState extends State<RightPanel> {
               : Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
-                    PhoneSection(onValidationChanged: (bool isValid) {}),
+                    PhoneSection(
+                      onValidationChanged: (bool isValid) {
+                        setState(() {
+                          _isMobileValid = isValid;
+                        });
+                      },
+                    ),
                     const SizedBox(height: 12),
-                    IdentifySection(onValidationChanged: (bool isValid) {}),
+                    IdentifySection(
+                      onValidationChanged: (bool isValid) {
+                        setState(() {
+                          _isIdentifyValid = isValid;
+                        });
+                      },
+                    ),
                   ],
                 ),
 
           const SizedBox(height: 20),
-          AmountSection(),
+          AmountSection(
+            onValidationChanged: (bool isValid) {
+              setState(() {
+                _isAmountValid = isValid;
+              });
+            },
+          ),
           const SizedBox(height: 30),
           ConsentSection(
+            onConsentChanged: (value) {
+              setState(() {
+                _isConsentChecked = value;
+              });
+            },
+          ),
+          const SizedBox(height: 12),
+          ButtonSection(
+            isMobileValid: _isMobileValid,
+            isIdentifyValid: _isIdentifyValid,
             isAmountValid: _isAmountValid,
-          ), //isEnabled: _isMobileValid && _isIdentifyValid
+            isConsentChecked: _isConsentChecked,
+          ),
+
           const SizedBox(height: 12),
           StepsAndLinksSection(),
           const SizedBox(height: 14),

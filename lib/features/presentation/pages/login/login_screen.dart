@@ -50,7 +50,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 Expanded(
                   flex: 6,
                   child: SingleChildScrollView(
-                    
                      child: RightPanel(),
                   ),
                 ),

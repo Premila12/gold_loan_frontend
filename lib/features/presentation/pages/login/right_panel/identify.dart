@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import '../../../../../utils/responsive.dart';
 import '../../../../../utils/validators/dob.dart';
 import '../../../../../utils/validators/pan.dart';
 
@@ -17,18 +18,17 @@ class IdentifySection extends StatefulWidget {
 
 class _IdentifySectionState extends State<IdentifySection> {
   String selected = 'dob';
-
   bool isDobValid = false;
   bool isPanValid = false;
 
-  /// 🔹 Notify parent
+  /// Notify parent
   void _notifyParent() {
     widget.onValidationChanged(
       selected == 'dob' ? isDobValid : isPanValid,
     );
   }
 
-  /// 🔹 Handle selection change
+  /// Handle selection change
   void _onSelectionChanged(String value) {
     setState(() {
       selected = value;
@@ -41,20 +41,19 @@ class _IdentifySectionState extends State<IdentifySection> {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final isMobile = width < 600;
+    final bool isMobile = Responsive.isMobile(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        /// 🔥 HEADER + OPTIONS (RESPONSIVE)
+        // HEADER + OPTIONS (RESPONSIVE)
         isMobile
             /// 📱 MOBILE VIEW
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   _title(),
-                  const SizedBox(height: 8),
+                  const SizedBox(height: 6),
                   Row(
                     children: [
                       _buildDobOption(),
@@ -64,8 +63,7 @@ class _IdentifySectionState extends State<IdentifySection> {
                   ),
                 ],
               )
-
-            /// 💻 TABLET + DESKTOP VIEW
+              //tablet and Desktop 
             : Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -77,9 +75,9 @@ class _IdentifySectionState extends State<IdentifySection> {
                 ],
               ),
 
-        const SizedBox(height: 10),
+        const SizedBox(height: 6),
 
-        /// 🔥 FIELD (DOB / PAN)
+        // FIELD (DOB / PAN)
         selected == 'dob'
             ? DOBField(
                 onValidationChanged: (isValid) {
@@ -104,7 +102,7 @@ class _IdentifySectionState extends State<IdentifySection> {
       style: GoogleFonts.inter(
         fontSize: 20,
         fontWeight: FontWeight.w600,
-        color: Colors.black87,
+        color: Colors.black,
       ),
     );
   }
