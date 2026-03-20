@@ -88,6 +88,7 @@ class _PhoneSectionState extends State<PhoneSection> {
 
         PhoneField(
           phoneFieldInfo: PhoneFieldInfo(
+            width: double.infinity,
             height: 48,
             controller: _controller,
             focusNode: _focusNode,
