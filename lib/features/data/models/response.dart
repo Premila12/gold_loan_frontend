@@ -19,7 +19,38 @@ class AuthInitResponse {
     );
   }
 }
+class GenerateQrResponse {
+  final String qrId;
+  final String qrBase64;
 
+  GenerateQrResponse({
+    required this.qrId,
+    required this.qrBase64,
+  });
+
+  factory GenerateQrResponse.fromJson(Map<String, dynamic> json) {
+    return GenerateQrResponse(
+      qrId: json['data']['qrId'],
+      qrBase64: json['qrBase64'],
+    );
+  }
+}
+class SessionFetchResponse {
+  final String status;
+  final String? token;
+
+  SessionFetchResponse({
+    required this.status,
+    this.token,
+  });
+
+  factory SessionFetchResponse.fromJson(Map<String, dynamic> json) {
+    return SessionFetchResponse(
+      status: json['status'],
+      token: json['token'],
+    );
+  }
+}
 
 
 

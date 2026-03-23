@@ -1,9 +1,41 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../../data/datasources/auth_remote_datasource.dart';
-// import '../../data/models/response.dart';
-// import '../../data/repositories/repository_impl.dart';
-// import '../repository/auth_repository.dart';
-// import '../../../core/network/dio_client.dart';
+import '../repository/auth_repository.dart';
+import '../../data/models/response.dart';
+
+class SessionFetchUseCase {
+  final AuthRepository repository;
+
+  SessionFetchUseCase(this.repository);
+
+  Future<SessionFetchResponse> call(
+    String authId,
+    String journeyId,
+  ) {
+    return repository.fetchSession(authId, journeyId);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // class FetchSessionUseCase {
 //   final AuthRepository repository;

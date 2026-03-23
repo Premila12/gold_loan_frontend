@@ -1,11 +1,11 @@
 class ApiEndpoints {
   static const String authInit = "/api/v1/auth/init";
-  static const String fetchSession = "/api/v1/auth/session/fetch";
+  static const String sessionFetch = "/api/v1/auth/session/fetch";
+   static const String qrGenerate = "/api/v1/auth/qr/generate";
 
   static const String otpInit = "/api/v1/auth/otp/init";
   static const String otpValidate = "/api/v1/auth/otp/validate";
 
-  static const String qrGenerate = "/api/v1/auth/qr/generate";
 }
 
 

@@ -1,10 +1,9 @@
 import 'dart:async';
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import 'package:qr_flutter/qr_flutter.dart';
-
-// import '../../providers/auth_controller.dart';
-// import '../../providers/auth_state.dart';
+import 'package:google_fonts/google_fonts.dart';
+import '../../../providers/app_providers.dart';
 
 class QRLoginPopup extends ConsumerStatefulWidget {
   const QRLoginPopup({super.key});
@@ -14,188 +13,244 @@ class QRLoginPopup extends ConsumerStatefulWidget {
 }
 
 class _QRLoginPopupState extends ConsumerState<QRLoginPopup> {
-  int secondsRemaining = 60;
-  Timer? timer;
-  bool isExpired = false;
- 
- @override
-  Widget build(BuildContext context) {
-    // TODO: implement build
-    throw UnimplementedError();
+  final ValueNotifier<int> _secondsNotifier = ValueNotifier(30);
+
+  Timer? _timer;
+  bool _isExpired = false;
+  bool isAuthenticated = false;
+
+  @override
+  void initState() {
+    super.initState();
+
+    /// Initial QR call
+    Future.microtask(() {
+      final authState = ref.read(authControllerProvider);
+      final journeyId = authState.value?.journeyId;
+
+      if (journeyId != null) {
+        ref.read(qrControllerProvider.notifier).generateQr(journeyId);
+      }
+    });
   }
-//   @override
-//   void initState() {
-//     super.initState();
 
-//       Future.microtask(() {
-//     ref.listen<AuthState>(authControllerProvider, (previous, next) {
-//       if (next.stage == AuthStage.authenticated) {
-//         if (mounted) {
-//           Navigator.pop(context);
-//           Navigator.pushReplacementNamed(context, "/dashboard");
-//         }
-//       }
-//     });
-//   });
+  /// TIMER
+  void _startTimer() {
+    _timer?.cancel();
+    _secondsNotifier.value = 30;
 
-//     /// Generate QR after UI loads
-//     Future.microtask(() async {
-//       await ref.read(authControllerProvider.notifier).generateQr();
-//       startTimer();
-//     });
-//   }
+    setState(() {
+      _isExpired = false;
+    });
 
-//   void startTimer() {
-//     timer?.cancel();
+    _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+      if (_secondsNotifier.value == 0) {
+        timer.cancel();
 
-//     secondsRemaining = 60;
-//     isExpired = false;
+        setState(() {
+          _isExpired = true;
+        });
+      } else {
+        _secondsNotifier.value--;
+      }
+    });
+  }
 
-//     timer = Timer.periodic(const Duration(seconds: 1), (timer) {
-//       if (secondsRemaining > 0) {
-//         setState(() {
-//           secondsRemaining--;
-//         });
-//       } else {
-//         timer.cancel();
-//         setState(() {
-//           isExpired = true;
-//         });
-//       }
-//     });
-//   }
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
 
-//   String get formattedTime {
-//     final minutes = (secondsRemaining ~/ 60).toString().padLeft(2, '0');
-//     final seconds = (secondsRemaining % 60).toString().padLeft(2, '0');
-//     return "$minutes:$seconds";
-//   }
+  @override
+  Widget build(BuildContext context) {
+    /// Listen for QR generation → start timer
+    ref.listen(qrControllerProvider, (prev, next) {
+      final controller = ref.read(qrControllerProvider.notifier);
 
-//   @override
-//   void dispose() {
-//     timer?.cancel();
-//     super.dispose();
-//   }
+      /// CLOSE POPUP WHEN LOGIN SUCCESS
+      if (controller.isAuthenticated) {
+        Navigator.pop(context);
+      }
 
-//   Future<void> refreshQr() async {
-//     setState(() {
-//       isExpired = false;
-//     });
+      /// START TIMER WHEN QR ARRIVES
+      next.whenData((data) {
+        if (data != null) {
+          _startTimer();
+        }
+      });
+    });
+    final qrState = ref.watch(qrControllerProvider);
 
-//     await ref.read(authControllerProvider.notifier).generateQr();
-//     startTimer();
-//   }
+    return Dialog(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: SizedBox(
+          width: 350,
+          child: qrState.when(
+            loading: () => const SizedBox(
+              height: 300,
+              child: Center(child: CircularProgressIndicator()),
+            ),
 
-//   @override
-//   Widget build(BuildContext context) {
-//     /// ✅ Reactive state
-//     final authState = ref.watch(authControllerProvider);
+            error: (e, _) => const SizedBox(
+              height: 300,
+              child: Center(child: Text("Error loading QR")),
+            ),
 
-//     return Dialog(
-//       backgroundColor: Colors.transparent,
-//       insetPadding: const EdgeInsets.symmetric(horizontal: 20),
-//       child: Center(
-//         child: Container(
-//           constraints: const BoxConstraints(maxWidth: 450),
-//           padding: const EdgeInsets.all(20),
-//           decoration: BoxDecoration(
-//             borderRadius: BorderRadius.circular(20),
-//             gradient: const LinearGradient(
-//               begin: Alignment.topCenter,
-//               end: Alignment.bottomCenter,
-//               colors: [Color(0xFF1C4D7A), Color(0xFF3C78A8)],
-//             ),
-//           ),
-//           child: Stack(
-//             children: [
-//               /// Close button
-//               Positioned(
-//                 right: 0,
-//                 top: 0,
-//                 child: IconButton(
-//                   onPressed: () => Navigator.pop(context),
-//                   icon: const Icon(Icons.close, color: Colors.white),
-//                 ),
-//               ),
+            data: (data) {
+              if (data == null) {
+                return const SizedBox(
+                  height: 300,
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
 
-//               Column(
-//                 mainAxisSize: MainAxisSize.min,
-//                 children: [
-//                   const SizedBox(height: 10),
+              return Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  /// HEADER
+                  SizedBox(
+                    width: double.infinity,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        const Text(
+                          "Login via QR Code",
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Positioned(
+                          right: 0,
+                          child: IconButton(
+                            icon: const Icon(Icons.close),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
 
-//                   const Text(
-//                     "Scan QR to Login",
-//                     style: TextStyle(fontSize: 22, color: Colors.white),
-//                   ),
+                  const SizedBox(height: 8),
 
-//                   const SizedBox(height: 25),
+                  const Text(
+                    "Use your HDFC Early Access App to scan the QR AND log in.\n"
+                    "Authenticate will happen via the App.",
+                    textAlign: TextAlign.center,
+                    style: TextStyle(fontSize: 12, color: Colors.black54),
+                  ),
 
-//                   /// QR Container
-//                   Container(
-//                     padding: const EdgeInsets.all(16),
-//                     decoration: BoxDecoration(
-//                       color: Colors.white,
-//                       borderRadius: BorderRadius.circular(15),
-//                     ),
-//                     child: authState.qrDeepLink == null
-//                         ? const SizedBox(
-//                             height: 200,
-//                             width: 200,
-//                             child: Center(child: CircularProgressIndicator()),
-//                           )
-//                         : Stack(
-//                             alignment: Alignment.center,
-//                             children: [
-//                               /// ✅ QR from deeplink
-//                               Opacity(
-//                                 opacity: isExpired ? 0.3 : 1,
-//                                 child: QrImageView(
-//                                   data: authState.qrDeepLink!,
-//                                   size: 200,
-//                                   version: QrVersions.auto,
-//                                 ),
-//                               ),
+                  const SizedBox(height: 12),
 
-//                               /// Expired overlay
-//                               if (isExpired)
-//                                 const Text(
-//                                   "QR Expired",
-//                                   style: TextStyle(
-//                                     color: Colors.red,
-//                                     fontSize: 18,
-//                                     fontWeight: FontWeight.bold,
-//                                   ),
-//                                 ),
-//                             ],
-//                           ),
-//                   ),
+                  /// STORE IMAGES
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset("assets/images/app_store.png", height: 30),
+                      const SizedBox(width: 10),
+                      Image.asset("assets/images/play_store.png", height: 30),
+                    ],
+                  ),
 
-//                   const SizedBox(height: 25),
+                  const SizedBox(height: 16),
 
-//                   /// Timer
-//                   Text(
-//                     isExpired
-//                         ? "QR expired"
-//                         : "QR expires in $formattedTime",
-//                     style: const TextStyle(
-//                       color: Colors.white,
-//                       fontSize: 16,
-//                     ),
-//                   ),
+                  /// QR SECTION
+                  Container(
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: const Color(0xFFEFF3F6),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      children: [
+                        Stack(
+                          alignment: Alignment.center,
+                          children: [
+                            /// QR IMAGE
+                            Opacity(
+                              opacity: _isExpired ? 0.3 : 1,
+                              child: Image.memory(
+                                base64Decode(data.qrBase64),
+                                height: 180,
+                                width: 180,
+                              ),
+                            ),
 
-//                   const SizedBox(height: 25),
+                            /// BLUR OVERLAY
+                            if (_isExpired)
+                              Container(
+                                height: 180,
+                                width: 180,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                              ),
 
-//                   /// Refresh button
-//                   ElevatedButton(
-//                     onPressed: refreshQr,
-//                     child: const Text("Refresh QR"),
-//                   ),
-//                 ],
-//               ),
-//             ],
-//           ),
-//         ),
-//       ),
-//     );
-//   }
+                            /// REFRESH BUTTON
+                            if (_isExpired)
+                              ElevatedButton.icon(
+                                onPressed: () {
+                                  final authState = ref.read(
+                                    authControllerProvider,
+                                  );
+                                  final journeyId = authState.value?.journeyId;
+
+                                  if (journeyId != null) {
+                                    ref
+                                        .read(qrControllerProvider.notifier)
+                                        .generateQr(journeyId);
+                                  }
+                                },
+                                icon: const Icon(Icons.refresh),
+                                label: const Text("Refresh"),
+                              ),
+                          ],
+                        ),
+
+                        const SizedBox(height: 10),
+
+                        /// TIMER
+                        if (!_isExpired)
+                          ValueListenableBuilder<int>(
+                            valueListenable: _secondsNotifier,
+                            builder: (_, secs, __) {
+                              return Text(
+                                "Refreshes in $secs secs",
+                                style: const TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.grey,
+                                ),
+                              );
+                            },
+                          ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(height: 12),
+
+                  /// FOOTER
+                  GestureDetector(
+                    onTap: () {},
+                    child: Text(
+                      "Trouble scanning the QR Code?",
+                      style: GoogleFonts.inter(
+                        fontSize: 12,
+                        color: Colors.blueAccent,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        ),
+      ),
+    );
+  }
 }

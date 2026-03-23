@@ -51,6 +51,9 @@ flutter:
   - assets/images/hdfc_logo.png
   - assets/images/secure.png
   - assets/images/gold.png
+  - assets/images/app_store.png
+  - assets/images/play_store.png
+  
   - assets/env/.env
   
   # fonts:

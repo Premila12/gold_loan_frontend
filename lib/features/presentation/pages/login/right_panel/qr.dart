@@ -24,7 +24,7 @@ class QrSection extends StatelessWidget {
                 context: context,
                 barrierDismissible: true,
                 builder: (BuildContext context) {
-                  return const QRLoginPopup(); // This is your class from ../right_panel/qr_login_popup.dart
+                  return const QRLoginPopup(); 
                 },
               );
             },

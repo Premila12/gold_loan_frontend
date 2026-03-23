@@ -21,6 +21,44 @@ class AuthRemoteDataSource {
 
     return AuthInitResponse.fromJson(response.data);
   }
+
+  Future<GenerateQrResponse> generateQr({
+  required String journeyId,
+}) async {
+  print("📡 Calling QR GENERATE API...");
+
+  final response = await dio.post(
+    ApiEndpoints.qrGenerate,
+    data: {
+      "journeyId": journeyId,
+      "journeyName": "LOGIN",
+      "deviceId": "device-123",
+    },
+  );
+
+  print("🔵 QR RESPONSE: ${response.data}");
+
+  return GenerateQrResponse.fromJson(response.data);
+}
+  //session Fetch 
+  Future<SessionFetchResponse> fetchSession({
+  required String authId,
+  required String journeyId,
+}) async {
+  print("📡 Polling session...");
+
+  final response = await dio.post(
+    ApiEndpoints.sessionFetch,
+    data: {
+      "authId": authId,
+      "journeyId": journeyId,
+    },
+  );
+
+  print("🔵 SESSION RESPONSE: ${response.data}");
+
+  return SessionFetchResponse.fromJson(response.data);
+}
 }
 
 

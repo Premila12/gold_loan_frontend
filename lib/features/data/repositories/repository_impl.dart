@@ -2,7 +2,6 @@ import '../../domain/repository/auth_repository.dart';
 import '../datasources/auth_remote_datasource.dart';
 import '../models/response.dart';
 
-
 class AuthRepositoryImpl implements AuthRepository {
   final AuthRemoteDataSource remoteDataSource;
 
@@ -12,18 +11,19 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<AuthInitResponse> initAuth() {
     return remoteDataSource.initAuth();
   }
+
+  //Qr
+  @override
+  Future<GenerateQrResponse> generateQr(String journeyId) {
+    return remoteDataSource.generateQr(journeyId: journeyId);
+  }
+
+  //session
+  @override
+  Future<SessionFetchResponse> fetchSession(String authId, String journeyId) {
+    return remoteDataSource.fetchSession(authId: authId, journeyId: journeyId);
+  }
 }
-
-
-
-
-
-
-
-
-
-
-
 
 // class AuthRepositoryImpl implements AuthRepository {
 //   final AuthRemoteDatasource remoteDataSource;

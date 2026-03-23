@@ -1,9 +1,29 @@
-// import 'package:flutter_riverpod/flutter_riverpod.dart';
-// import '../../data/datasources/auth_remote_datasource.dart';
-// import '../../data/models/response.dart';
-// import '../../data/repositories/repository_impl.dart';
-// import '../repository/auth_repository.dart';
-// import '../../../core/network/dio_client.dart';
+import '../repository/auth_repository.dart';
+import '../../data/models/response.dart';
+
+class GenerateQrUseCase {
+  final AuthRepository repository;
+
+  GenerateQrUseCase(this.repository);
+
+  Future<GenerateQrResponse> call(String journeyId) {
+    return repository.generateQr(journeyId);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // class GenerateQrUseCase {
 //   final AuthRepository repository;
