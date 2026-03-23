@@ -18,6 +18,8 @@ dependencies:
      path: ../design_kit
   url_launcher: ^6.3.2
   flutter_riverpod: ^3.3.1
+  dio: ^5.9.2
+  flutter_dotenv: ^6.0.0
      
 
   
@@ -49,6 +51,7 @@ flutter:
   - assets/images/hdfc_logo.png
   - assets/images/secure.png
   - assets/images/gold.png
+  - assets/env/.env
   
   # fonts:
   #   - family: Inter

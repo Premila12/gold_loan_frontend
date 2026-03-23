@@ -1,16 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../../../../utils/responsive.dart';
+import '../../providers/app_providers.dart';
 import './left_panel/left_panel.dart';
 import './right_panel/right_form.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  ConsumerState<LoginScreen> createState() => _LoginScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _LoginScreenState extends ConsumerState<LoginScreen> {
+  @override
+void initState() {
+  super.initState();
+
+  print(" initState called");
+
+  Future.microtask(() {
+    print(" Calling initAuth()");
+    ref.read(authControllerProvider.notifier).initAuth();
+  });
+}
+
+
+
   @override
   Widget build(BuildContext context) {
     final isDesktop = Responsive.isDesktop(context);

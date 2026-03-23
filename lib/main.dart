@@ -1,9 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'features/presentation/pages/login/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await dotenv.load(fileName: "assets/env/.env");
+
+  runApp(
+    const ProviderScope( // ✅ ADD THIS
+      child: MyApp(),
+    ),
+  );
+  
 }
 
 class MyApp extends StatelessWidget {
