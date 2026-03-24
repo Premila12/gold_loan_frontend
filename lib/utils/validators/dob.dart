@@ -3,8 +3,13 @@ import 'package:flutter/services.dart';
 
 class DOBField extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
+  final Function(String value)? onValueChanged;
 
-  const DOBField({super.key, required this.onValidationChanged});
+  const DOBField({
+    super.key,
+    required this.onValidationChanged,
+    this.onValueChanged,
+  });
 
   @override
   State<DOBField> createState() => _DOBFieldState();
@@ -98,8 +103,10 @@ class _DOBFieldState extends State<DOBField> {
     if (_errorText != error) {
       setState(() => _errorText = error);
     }
-    
     widget.onValidationChanged(validStatus);
+    if (validStatus) {
+      widget.onValueChanged?.call(_controller.text);
+    }
   }
 
   @override

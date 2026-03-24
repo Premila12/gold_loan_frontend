@@ -6,10 +6,12 @@ import '../../../../../utils/validators/pan.dart';
 
 class IdentifySection extends StatefulWidget {
   final Function(bool) onValidationChanged;
+  final Function(String value)? onValueChanged;
 
   const IdentifySection({
     super.key,
     required this.onValidationChanged,
+    this.onValueChanged,
   });
 
   @override
@@ -84,12 +86,14 @@ class _IdentifySectionState extends State<IdentifySection> {
                   isDobValid = isValid;
                   _notifyParent();
                 },
+                onValueChanged: widget.onValueChanged,
               )
             : PANField(
                 onValidationChanged: (isValid) {
                   isPanValid = isValid;
                   _notifyParent();
                 },
+                onValueChanged: widget.onValueChanged,
               ),
       ],
     );

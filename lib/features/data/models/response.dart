@@ -52,6 +52,56 @@ class SessionFetchResponse {
   }
 }
 
+class UserIdentifyResponse {
+  final String status;
+  final String? identifyToken;
+
+  UserIdentifyResponse({
+    required this.status,
+    this.identifyToken,
+  });
+
+  factory UserIdentifyResponse.fromJson(Map<String, dynamic> json) {
+    return UserIdentifyResponse(
+      status: json['status'],
+      identifyToken: json['identifyToken'],
+    );
+  }
+}
+
+class OtpInitResponse {
+  final String status;
+  final String sessionToken;
+  final int expiresAt;
+  final int journeyExpiresAt;
+
+  OtpInitResponse({
+    required this.status,
+    required this.sessionToken,
+    required this.expiresAt,
+    required this.journeyExpiresAt,
+  });
+
+  factory OtpInitResponse.fromJson(Map<String, dynamic> json) {
+    return OtpInitResponse(
+      status: json['status'],
+      sessionToken: json['sessionToken'],
+      expiresAt: json['expiresAt'],
+      journeyExpiresAt: json['journeyExpiresAt'],
+    );
+  }
+}
+
+class OtpValidateResponse {
+  final String status;
+
+  OtpValidateResponse({required this.status});
+
+  factory OtpValidateResponse.fromJson(Map<String, dynamic> json) {
+    return OtpValidateResponse(status: json['status']);
+  }
+}
+
 
 
 

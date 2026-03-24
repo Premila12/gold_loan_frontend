@@ -59,7 +59,72 @@ class AuthRemoteDataSource {
 
   return SessionFetchResponse.fromJson(response.data);
 }
+
+  // Identify User
+  Future<UserIdentifyResponse> identifyUser({
+    required String phoneNumber,
+    required String pan,
+    required String dob,
+  }) async {
+    print("📡 Calling USER IDENTIFY API...");
+
+    final response = await dio.post(
+      ApiEndpoints.userIdentify,
+      data: {
+        "phoneNumber": phoneNumber,
+        "pan": pan,
+        "dob": dob,
+      },
+    );
+
+    print("🔵 IDENTIFY RESPONSE: ${response.data}");
+
+    return UserIdentifyResponse.fromJson(response.data);
+  }
+
+  // OTP Init
+  Future<OtpInitResponse> initOtp({
+    required String journeyId,
+    required String identifyToken,
+  }) async {
+    print("📡 Calling OTP INIT API...");
+
+    final response = await dio.post(
+      ApiEndpoints.otpInit,
+      data: {
+        "journeyId": journeyId,
+        "identifyToken": identifyToken,
+      },
+    );
+
+    print("🔵 OTP INIT RESPONSE: ${response.data}");
+
+    return OtpInitResponse.fromJson(response.data);
+  }
+
+  // OTP Validate
+  Future<OtpValidateResponse> validateOtp({
+    required String sessionToken,
+    required String journeyId,
+    required String otp,
+  }) async {
+    print("📡 Calling OTP VALIDATE API...");
+
+    final response = await dio.post(
+      ApiEndpoints.otpValidate,
+      data: {
+        "sessionToken": sessionToken,
+        "journeyId": journeyId,
+        "otp": otp,
+      },
+    );
+
+    print("🔵 OTP VALIDATE RESPONSE: ${response.data}");
+
+    return OtpValidateResponse.fromJson(response.data);
+  }
 }
+
 
 
 

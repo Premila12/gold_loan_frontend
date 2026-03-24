@@ -17,10 +17,16 @@ class RightPanel extends StatefulWidget {
 }
 
 class RightPanelState extends State<RightPanel> {
+  // Validation flags
   bool _isMobileValid = false;
   bool _isIdentifyValid = false;
   bool _isAmountValid = false;
   bool _isConsentChecked = false;
+
+  // Actual form values
+  String _phoneNumber = '';
+  String _identifyValue = ''; // DOB or PAN depending on selection
+
   @override
   Widget build(BuildContext context) {
     final isDesktop = Responsive.isDesktop(context);
@@ -42,9 +48,10 @@ class RightPanelState extends State<RightPanel> {
                     Expanded(
                       child: PhoneSection(
                         onValidationChanged: (bool isValid) {
-                          setState(() {
-                            _isMobileValid = isValid;
-                          });
+                          setState(() => _isMobileValid = isValid);
+                        },
+                        onValueChanged: (value) {
+                          setState(() => _phoneNumber = value);
                         },
                       ),
                     ),
@@ -52,9 +59,10 @@ class RightPanelState extends State<RightPanel> {
                     Expanded(
                       child: IdentifySection(
                         onValidationChanged: (bool isValid) {
-                          setState(() {
-                            _isIdentifyValid = isValid;
-                          });
+                          setState(() => _isIdentifyValid = isValid);
+                        },
+                        onValueChanged: (value) {
+                          setState(() => _identifyValue = value);
                         },
                       ),
                     ),
@@ -65,17 +73,19 @@ class RightPanelState extends State<RightPanel> {
                   children: [
                     PhoneSection(
                       onValidationChanged: (bool isValid) {
-                        setState(() {
-                          _isMobileValid = isValid;
-                        });
+                        setState(() => _isMobileValid = isValid);
+                      },
+                      onValueChanged: (value) {
+                        setState(() => _phoneNumber = value);
                       },
                     ),
                     const SizedBox(height: 12),
                     IdentifySection(
                       onValidationChanged: (bool isValid) {
-                        setState(() {
-                          _isIdentifyValid = isValid;
-                        });
+                        setState(() => _isIdentifyValid = isValid);
+                      },
+                      onValueChanged: (value) {
+                        setState(() => _identifyValue = value);
                       },
                     ),
                   ],
@@ -84,17 +94,13 @@ class RightPanelState extends State<RightPanel> {
           const SizedBox(height: 20),
           AmountSection(
             onValidationChanged: (bool isValid) {
-              setState(() {
-                _isAmountValid = isValid;
-              });
+              setState(() => _isAmountValid = isValid);
             },
           ),
           const SizedBox(height: 30),
           ConsentSection(
             onConsentChanged: (value) {
-              setState(() {
-                _isConsentChecked = value;
-              });
+              setState(() => _isConsentChecked = value);
             },
           ),
           const SizedBox(height: 12),
@@ -103,6 +109,8 @@ class RightPanelState extends State<RightPanel> {
             isIdentifyValid: _isIdentifyValid,
             isAmountValid: _isAmountValid,
             isConsentChecked: _isConsentChecked,
+            phoneNumber: _phoneNumber,
+            identifyValue: _identifyValue,
           ),
 
           const SizedBox(height: 12),

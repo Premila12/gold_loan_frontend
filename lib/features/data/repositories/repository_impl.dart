@@ -23,7 +23,26 @@ class AuthRepositoryImpl implements AuthRepository {
   Future<SessionFetchResponse> fetchSession(String authId, String journeyId) {
     return remoteDataSource.fetchSession(authId: authId, journeyId: journeyId);
   }
+
+  // user identify
+  @override
+  Future<UserIdentifyResponse> identifyUser(String phoneNumber, String pan, String dob) {
+    return remoteDataSource.identifyUser(phoneNumber: phoneNumber, pan: pan, dob: dob);
+  }
+
+  // otp init
+  @override
+  Future<OtpInitResponse> initOtp(String journeyId, String identifyToken) {
+    return remoteDataSource.initOtp(journeyId: journeyId, identifyToken: identifyToken);
+  }
+
+  // otp validate
+  @override
+  Future<OtpValidateResponse> validateOtp(String sessionToken, String journeyId, String otp) {
+    return remoteDataSource.validateOtp(sessionToken: sessionToken, journeyId: journeyId, otp: otp);
+  }
 }
+
 
 // class AuthRepositoryImpl implements AuthRepository {
 //   final AuthRemoteDatasource remoteDataSource;

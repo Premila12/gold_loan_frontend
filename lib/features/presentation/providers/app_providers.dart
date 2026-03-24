@@ -9,8 +9,12 @@ import '../../domain/repository/auth_repository.dart';
 import '../../domain/usecases/autth_init_usecase.dart';
 import '../../domain/usecases/fetch_session_usecase.dart';
 import '../../domain/usecases/generate_qr_usecase.dart';
+import '../../domain/usecases/identify_user_usecase.dart';
+import '../../domain/usecases/otp_init_usecase.dart';
+import '../../domain/usecases/otp_validate_usecase.dart';
 import 'auth_controller.dart';
 import 'qr_controller.dart';
+import 'otp_controller.dart';
 
 /// 1. Dio
 final dioProvider = Provider<Dio>((ref) {
@@ -27,7 +31,7 @@ final authRepositoryProvider = Provider<AuthRepository>((ref) {
   return AuthRepositoryImpl(ref.read(authRemoteDataSourceProvider));
 });
 
-/// 4. authinit UseCase
+/// 4. Use Cases
 final authInitUseCaseProvider = Provider<AuthInitUseCase>((ref) {
   return AuthInitUseCase(ref.read(authRepositoryProvider));
 });
@@ -40,7 +44,20 @@ final sessionFetchUseCaseProvider = Provider<SessionFetchUseCase>((ref) {
   return SessionFetchUseCase(ref.read(authRepositoryProvider));
 });
 
-/// 5. Controller
+// OTP Use Cases
+final identifyUserUseCaseProvider = Provider<IdentifyUserUseCase>((ref) {
+  return IdentifyUserUseCase(ref.read(authRepositoryProvider));
+});
+
+final otpInitUseCaseProvider = Provider<OtpInitUseCase>((ref) {
+  return OtpInitUseCase(ref.read(authRepositoryProvider));
+});
+
+final otpValidateUseCaseProvider = Provider<OtpValidateUseCase>((ref) {
+  return OtpValidateUseCase(ref.read(authRepositoryProvider));
+});
+
+/// 5. Controllers
 final authControllerProvider =
     StateNotifierProvider<AuthController, AsyncValue<AuthInitResponse?>>(
       (ref) => AuthController(ref.read(authInitUseCaseProvider)),
@@ -51,5 +68,14 @@ final qrControllerProvider =
       (ref) => QrController(
         ref.read(generateQrUseCaseProvider),
         ref.read(sessionFetchUseCaseProvider),
+      ),
+    );
+
+final otpControllerProvider =
+    StateNotifierProvider<OtpController, OtpState>(
+      (ref) => OtpController(
+        identifyUserUseCase: ref.read(identifyUserUseCaseProvider),
+        otpInitUseCase: ref.read(otpInitUseCaseProvider),
+        otpValidateUseCase: ref.read(otpValidateUseCaseProvider),
       ),
     );

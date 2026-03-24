@@ -5,8 +5,13 @@ import 'package:design_kit/design_kit/src/phonefield/phonefield_info.dart';
 
 class PhoneSection extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
+  final Function(String value)? onValueChanged;
 
-  const PhoneSection({super.key, required this.onValidationChanged});
+  const PhoneSection({
+    super.key,
+    required this.onValidationChanged,
+    this.onValueChanged,
+  });
 
   @override
   State<PhoneSection> createState() => _PhoneSectionState();
@@ -65,6 +70,7 @@ class _PhoneSectionState extends State<PhoneSection> {
         !RegExp(r'^[6-9]0{9}$').hasMatch(value));
 
     widget.onValidationChanged(isValid);
+    widget.onValueChanged?.call(value);
   }
 
   @override

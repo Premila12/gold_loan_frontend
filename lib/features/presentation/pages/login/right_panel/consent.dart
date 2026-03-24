@@ -46,7 +46,7 @@ class _ConsentSectionState extends State<ConsentSection> {
 
               TextSpan(
                 text: "Notice",
-                style: const TextStyle(color: Colors.blue),
+                style: const TextStyle(color: Color(0xFF1C3FCA)),
                 recognizer: TapGestureRecognizer()
                   ..onTap = AppLinks.openNoticeConsent,
               ),
@@ -79,7 +79,7 @@ class _ConsentSectionState extends State<ConsentSection> {
 
               TextSpan(
                 text: "Notice",
-                style: GoogleFonts.inter(color: Colors.blue),
+                style: GoogleFonts.inter(color: const Color(0xFF1C3FCA)),
                 recognizer: TapGestureRecognizer()
                   ..onTap = AppLinks.openNoticeConsent,
               ),
@@ -109,7 +109,7 @@ class _ConsentSectionState extends State<ConsentSection> {
 
               TextSpan(
                 text: "Terms & Conditions",
-                style: GoogleFonts.inter(color: Colors.blue),
+                style: GoogleFonts.inter(color: const Color(0xFF1C3FCA)),
                 recognizer: TapGestureRecognizer()
                   ..onTap = AppLinks.openTermsAndConditions,
               ),
@@ -118,7 +118,7 @@ class _ConsentSectionState extends State<ConsentSection> {
 
               TextSpan(
                 text: "Privacy Policy",
-                style: GoogleFonts.inter(color: Colors.blue),
+                style: GoogleFonts.inter(color: const Color(0xFF1C3FCA)),
                 recognizer: TapGestureRecognizer()
                   ..onTap = AppLinks.openPrivacyPolicy,
               ),

@@ -240,7 +240,7 @@ class _QRLoginPopupState extends ConsumerState<QRLoginPopup> {
                       "Trouble scanning the QR Code?",
                       style: GoogleFonts.inter(
                         fontSize: 12,
-                        color: Colors.blueAccent,
+                        color: const Color(0xFF1C3FCA),
                         decoration: TextDecoration.underline,
                       ),
                     ),

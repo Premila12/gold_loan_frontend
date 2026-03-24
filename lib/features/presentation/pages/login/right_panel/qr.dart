@@ -34,7 +34,7 @@ class QrSection extends StatelessWidget {
               child: Icon(
                 Icons.qr_code_scanner,
                 size: 32,
-                color: Colors.blue.shade800,
+                color: const Color(0xFF1C3FCA),
               ),
             ),
           ),

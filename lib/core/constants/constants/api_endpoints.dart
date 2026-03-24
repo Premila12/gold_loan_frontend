@@ -5,7 +5,7 @@ class ApiEndpoints {
 
   static const String otpInit = "/api/v1/auth/otp/init";
   static const String otpValidate = "/api/v1/auth/otp/validate";
-
+  static const String userIdentify = "/api/v1/user/identify";
 }
 
 

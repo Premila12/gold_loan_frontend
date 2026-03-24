@@ -4,10 +4,12 @@ import 'package:flutter/material.dart';
 
 class PANField extends StatefulWidget {
   final Function(bool isValid) onValidationChanged;
+  final Function(String value)? onValueChanged;
 
   const PANField({
     super.key,
     required this.onValidationChanged,
+    this.onValueChanged,
   });
 
   @override
@@ -79,6 +81,7 @@ class _PANFieldState extends State<PANField> {
 
       /// ✅ Valid
       _updateStatus(null, true);
+      widget.onValueChanged?.call(value);
     } else {
       _updateStatus(null, false);
     }
