@@ -64,7 +64,9 @@ class ButtonSection extends ConsumerWidget {
     final isDob = identifyValue.contains('/');
 
     // Call OTP flow
-    ref.read(otpControllerProvider.notifier).startOtpFlow(
+    ref
+        .read(otpControllerProvider.notifier)
+        .startOtpFlow(
           phoneNumber: phoneNumber,
           pan: isDob ? '' : formattedValue,
           dob: isDob ? formattedValue : '',
@@ -88,32 +90,25 @@ class ButtonSection extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return ButtonWidget(
       buttonWidgetInfo: ButtonWidgetInfo(
-        buttonText: "Login ",
+        buttonText: "Login > ",
         height: 50,
         width: 200,
         borderRadius: 12,
-        backgroundColor: _isEnabled ? const Color(0xFF1C3FCA) : Colors.grey.shade400,
+        backgroundColor: _isEnabled
+            ? const Color(0xFF1C3FCA)
+            : Colors.grey.shade400,
         textColor: Colors.white,
-        onPressed: _isEnabled
-            ? () => _onLoginPressed(context, ref)
-            : null,
+        onPressed: _isEnabled ? () => _onLoginPressed(context, ref) : null,
       ),
     );
   }
 }
 
-// ─── OTP Dialog Listener ──────────────────────────────────────────────────────
-// A separate ConsumerStatefulWidget that listens to OtpController state and
-// rebuilds the dialog with up-to-date secondsLeft, error messages, loading state.
-
 class _OtpDialogListener extends ConsumerWidget {
   final String phoneHint;
   final String journeyId;
 
-  const _OtpDialogListener({
-    required this.phoneHint,
-    required this.journeyId,
-  });
+  const _OtpDialogListener({required this.phoneHint, required this.journeyId});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -134,7 +129,8 @@ class _OtpDialogListener extends ConsumerWidget {
       });
     }
 
-    final isLoading = otpState.status == OtpStatus.loading ||
+    final isLoading =
+        otpState.status == OtpStatus.loading ||
         otpState.status == OtpStatus.validating;
 
     return OtpDialogWidget(
@@ -144,10 +140,9 @@ class _OtpDialogListener extends ConsumerWidget {
         isLoading: isLoading,
         errorMessage: otpState.errorMessage,
         onSubmit: (otp) {
-          ref.read(otpControllerProvider.notifier).submitOtp(
-                otp: otp,
-                journeyId: journeyId,
-              );
+          ref
+              .read(otpControllerProvider.notifier)
+              .submitOtp(otp: otp, journeyId: journeyId);
         },
         onResend: () {
           ref.read(otpControllerProvider.notifier).resendOtp(journeyId);
