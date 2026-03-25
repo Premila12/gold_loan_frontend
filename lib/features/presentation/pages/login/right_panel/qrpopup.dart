@@ -68,10 +68,10 @@ class _QRLoginPopupState extends ConsumerState<QRLoginPopup> {
     ref.listen(qrControllerProvider, (prev, next) {
       final controller = ref.read(qrControllerProvider.notifier);
 
-      /// CLOSE POPUP WHEN LOGIN SUCCESS
-      if (controller.isAuthenticated) {
-        Navigator.pop(context);
-      }
+    
+    if (controller.isAuthenticated) {
+      Navigator.pushReplacementNamed(context, "/nextScreen");
+    }
 
       /// START TIMER WHEN QR ARRIVES
       next.whenData((data) {

@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gold_loan_hdfc/features/presentation/pages/login/right_panel/welcomescreen.dart';
 import 'features/presentation/pages/login/login_screen.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 void main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await dotenv.load(fileName: "assets/env/.env");
 
-  runApp(
-    const ProviderScope( 
-      child: MyApp(),
-    ),
-  );
-  
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -26,7 +22,11 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         textTheme: GoogleFonts.interTextTheme(Theme.of(context).textTheme),
       ),
-      home: LoginScreen(),
+      initialRoute: "/",
+      routes: {
+        "/": (context) => LoginScreen(),
+        "/nextScreen": (context) => WelcomeScreen(),
+      },
     );
   }
 }

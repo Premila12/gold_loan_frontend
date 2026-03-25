@@ -5,7 +5,7 @@ import '../../domain/usecases/identify_user_usecase.dart';
 import '../../domain/usecases/otp_init_usecase.dart';
 import '../../domain/usecases/otp_validate_usecase.dart';
 
-// ─── OTP State (inline, no separate state file) ──────────────────────────────
+//  OTP State
 
 enum OtpStatus { idle, loading, otpSent, validating, validated, error }
 
@@ -41,8 +41,7 @@ class OtpState {
   }
 }
 
-// ─── OTP Controller ───────────────────────────────────────────────────────────
-
+//  OTP Controller
 class OtpController extends StateNotifier<OtpState> {
   final IdentifyUserUseCase identifyUserUseCase;
   final OtpInitUseCase otpInitUseCase;
@@ -67,8 +66,12 @@ class OtpController extends StateNotifier<OtpState> {
 
     try {
       // Step 1: Identify user
-      print("🔐 Starting OTP flow...");
-      final identifyResponse = await identifyUserUseCase.call(phoneNumber, pan, dob);
+      print("Starting OTP flow...");
+      final identifyResponse = await identifyUserUseCase.call(
+        phoneNumber,
+        pan,
+        dob,
+      );
 
       if (identifyResponse.status == "USER_NOT_FOUND") {
         state = state.copyWith(
@@ -79,12 +82,15 @@ class OtpController extends StateNotifier<OtpState> {
       }
 
       final identifyToken = identifyResponse.identifyToken!;
-      print("✅ User identified. Token: $identifyToken");
+      print("User identified. Token: $identifyToken");
 
       // Step 2: Init OTP
-      final otpInitResponse = await otpInitUseCase.call(journeyId, identifyToken);
+      final otpInitResponse = await otpInitUseCase.call(
+        journeyId,
+        identifyToken,
+      );
 
-      print("📲 OTP sent. Session: ${otpInitResponse.sessionToken}");
+      print("OTP sent. Session: ${otpInitResponse.sessionToken}");
 
       state = state.copyWith(
         status: OtpStatus.otpSent,
@@ -95,7 +101,7 @@ class OtpController extends StateNotifier<OtpState> {
 
       _startCountdown();
     } catch (e) {
-      print("❌ OTP flow error: $e");
+      print("OTP flow error: $e");
       state = state.copyWith(
         status: OtpStatus.error,
         errorMessage: "Something went wrong. Please try again.",
@@ -114,7 +120,11 @@ class OtpController extends StateNotifier<OtpState> {
     state = state.copyWith(status: OtpStatus.validating, errorMessage: null);
 
     try {
-      final response = await otpValidateUseCase.call(sessionToken, journeyId, otp);
+      final response = await otpValidateUseCase.call(
+        sessionToken,
+        journeyId,
+        otp,
+      );
 
       print("🔵 OTP VALIDATE STATUS: ${response.status}");
 
@@ -141,7 +151,7 @@ class OtpController extends StateNotifier<OtpState> {
 
       state = state.copyWith(status: OtpStatus.otpSent, errorMessage: errorMsg);
     } catch (e) {
-      print("❌ OTP submit error: $e");
+      print("OTP submit error: $e");
       state = state.copyWith(
         status: OtpStatus.otpSent,
         errorMessage: "Something went wrong. Please try again.",
@@ -158,7 +168,10 @@ class OtpController extends StateNotifier<OtpState> {
     state = state.copyWith(status: OtpStatus.loading, errorMessage: null);
 
     try {
-      final otpInitResponse = await otpInitUseCase.call(journeyId, identifyToken);
+      final otpInitResponse = await otpInitUseCase.call(
+        journeyId,
+        identifyToken,
+      );
 
       state = state.copyWith(
         status: OtpStatus.otpSent,

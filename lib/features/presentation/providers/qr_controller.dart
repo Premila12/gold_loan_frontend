@@ -12,10 +12,8 @@ class QrController extends StateNotifier<AsyncValue<GenerateQrResponse?>> {
   Timer? _pollingTimer;
   bool isAuthenticated = false;
 
-  QrController(
-    this.generateQrUseCase,
-    this.sessionFetchUseCase,
-  ) : super(const AsyncData(null));
+  QrController(this.generateQrUseCase, this.sessionFetchUseCase)
+    : super(const AsyncData(null));
 
   // Generate QR
   Future<void> generateQr(String journeyId) async {
@@ -29,10 +27,7 @@ class QrController extends StateNotifier<AsyncValue<GenerateQrResponse?>> {
       state = AsyncData(response);
 
       // Start polling AFTER QR is generated
-      _startPolling(
-        qrId: response.qrId,
-        journeyId: journeyId,
-      );
+      _startPolling(qrId: response.qrId, journeyId: journeyId);
     } catch (e) {
       print("QR ERROR: $e");
       state = AsyncError(e, StackTrace.current);
@@ -40,18 +35,14 @@ class QrController extends StateNotifier<AsyncValue<GenerateQrResponse?>> {
   }
 
   // POLLING FUNCTION
-  void _startPolling({
-    required String qrId,
-    required String journeyId,
-  }) {
+  void _startPolling({required String qrId, required String journeyId}) {
     print("Start polling...");
 
     _pollingTimer?.cancel();
 
     _pollingTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
       try {
-        final response =
-            await sessionFetchUseCase.call(qrId, journeyId);
+        final response = await sessionFetchUseCase.call(qrId, journeyId);
 
         print(" Status: ${response.status}");
 
@@ -60,16 +51,19 @@ class QrController extends StateNotifier<AsyncValue<GenerateQrResponse?>> {
           return;
         }
 
-        /// SUCCESS
+        // SUCCESS
         if (response.status == "APPROVED") {
-          print(" LOGIN SUCCESS: ${response.token}");
+          print("LOGIN SUCCESS: ${response.token}");
+
+          isAuthenticated = true;
 
           timer.cancel();
+          _pollingTimer = null;
 
-          // You can trigger navigation later
+          state = const AsyncValue.data(null);
+
           return;
         }
-
         //REJECTED
         if (response.status == "REJECTED") {
           print(" Login Rejected");
